@@ -12,9 +12,11 @@ function lcaml.init_syntax()
       vim.bo["filetype"] = "lml"
     else
       vim.notify("uninitialized and not an lml file", vim.log.levels.ERROR)
+      return
     end
   else
     vim.notify("not an lml file", vim.log.levels.ERROR)
+    return
   end
 
   vim.cmd("syntax clear")
