@@ -1,6 +1,6 @@
 local lcaml = {}
 
-local function init_syntax()
+local function init_syntax(_)
   if vim.bo.current_syntax ~= "" then
     return
   end
