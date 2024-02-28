@@ -2,6 +2,11 @@ local lcaml = {}
 
 function lcaml.init_syntax()
   vim.notify("debug: init_syntax", vim.log.levels.ERROR)
+  local current_syntax = vim.bo["current_syntax"]
+  if current_syntax == nil then
+    vim.notify("current_syntax is nil", vim.log.levels.ERROR)
+    current_syntax = ""
+  end
 
   if vim.bo["filetype"] ~= "lml" or vim.bo["current_syntax"] ~= "" then
     local msg = "filetype" .. vim.bo["filetype"] .. " current_syntax" .. vim.bo["current_syntax"]
