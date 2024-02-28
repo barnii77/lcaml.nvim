@@ -1,6 +1,6 @@
 local lcaml = {}
 
-local vimscript = [[
+local highlights = [[
 " Vim syntax file for Your Programming Language
 
 if !exists("b:current_syntax")
@@ -42,7 +42,7 @@ endif
 ]]
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-  { callback = function(_) vim.cmd(vimscript) end })
+  { callback = function(_) vim.cmd(highlights) end })
 
 function lcaml:init() end
 
