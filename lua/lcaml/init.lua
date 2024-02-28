@@ -43,15 +43,9 @@ highlight link lcamlTodo Todo
 let b:current_syntax = "lml"
 ]]
 
-function lcaml:init()
-  vim.notify("debug: lcaml.init", vim.log.levels.ERROR)
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { pattern = { "*.lml" }, callback = function(_) vim.cmd(vimscript) end })
-end
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+  { pattern = { "*.lml" }, callback = function(_) vim.cmd(vimscript) end })
 
-function lcaml:setup()
-  vim.notify("debug: lcaml.setup", vim.log.levels.ERROR)
-  lcaml:init()
-end
+function lcaml:init() end
 
 return lcaml
