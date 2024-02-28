@@ -1,59 +1,52 @@
 local lcaml = {}
 
-function lcaml.init_syntax()
-  vim.notify("debug: init_syntax", vim.log.levels.ERROR)
+local vimscript = [[
+" Vim syntax file for Your Programming Language
 
-  if vim.bo["filetype"] == "lml" then
-  elseif vim.bo["filetype"] == "" then
-    -- check if filename ends with .lml
-    if vim.fn.expand("%:e") == "lml" then
-      vim.bo["filetype"] = "lml"
-    else
-      vim.notify("uninitialized and not an lml file", vim.log.levels.ERROR)
-      return
-    end
-  else
-    vim.notify("not an lml file", vim.log.levels.ERROR)
-    return
-  end
+if exists("b:current_syntax")
+  finish
+endif
 
-  vim.cmd("syntax clear")
-  -- Keywords
-  vim.cmd("syntax keyword lcamlKeyword let return if else")
-  vim.cmd("syntax keyword lcamlStruct struct")
-  vim.cmd("syntax keyword lcamlType int float bool string list")
-  vim.cmd("syntax keyword lcamlTodo TODO NOTE FIXME")
+syntax clear
 
-  vim.cmd("syntax match lcamlLiteral /[()]\\|\\d\\.\\d\\+\\|\\d\\+/")
-  vim.cmd("syntax match lcamlBoolean /true\\|false/")
+" Keywords
+syntax keyword lcamlKeyword let return if else
+syntax keyword lcamlStruct struct
+syntax keyword lcamlType int float bool string list
+syntax keyword lcamlTodo TODO NOTE FIXME
 
-  vim.cmd("syntax match lcamlIdentifier /\\(\\(true\\|false\\)\\>\\)@!\\([a-zA-Z_][a-zA-Z0-9_]*\\)/")
+syntax match lcamlLiteral /()\|\d\+.\d\+\|\d\+/
+syntax match lcamlBoolean /true\|false/
 
-  vim.cmd("syntax match lcamlFunctionDef /|/")
-  vim.cmd("syntax match lcamlOperator /+\\|-\\|*\\|\\/\\|%\\|==\\|!=\\|<\\|<=\\|>\\|>=\\|&&\\|\\|\\|\\|!\\|~/")
+syntax match lcamlIdentifier /\(\(true\|false\)\>\)\@!\([a-zA-Z_][a-zA-Z0-9_]*\)/
 
-  -- Strings and Comments
-  vim.cmd("syntax region lcamlString start=/\"/ end=/\"/ contains=@Spell")
-  vim.cmd("syntax match lcamlComment /--.*\\n/ contains=@Spell")
+syntax match lcamlFunctionDef /|/
+syntax match lcamlOperator /+\|-\|\*\|\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~/
 
-  -- Linking
-  vim.cmd("highlight link lcamlKeyword Statement")
-  vim.cmd("highlight link lcamlType Type")
-  vim.cmd("highlight link lcamlStruct Structure")
-  vim.cmd("highlight link lcamlLiteral Constant")
-  vim.cmd("highlight link lcamlBoolean Boolean")
-  vim.cmd("highlight link lcamlIdentifier Function") -- Identifier
-  vim.cmd("highlight link lcamlString String")
-  vim.cmd("highlight link lcamlComment Comment")
-  vim.cmd("highlight link lcamlFunctionDef Operator")
-  vim.cmd("highlight link lcamlOperator Operator")
-  vim.cmd("highlight link lcamlTodo Todo")
-end
+" Strings and Comments
+syntax region lcamlString start=/"/ end=/"/ contains=@Spell
+syntax match lcamlComment /--.*\n/ contains=@Spell
+
+" Linking
+highlight link lcamlKeyword Statement
+highlight link lcamlType Type
+highlight link lcamlStruct Structure
+highlight link lcamlLiteral Constant
+highlight link lcamlBoolean Boolean
+highlight link lcamlIdentifier Function  " Identifier
+highlight link lcamlString String
+highlight link lcamlComment Comment
+highlight link lcamlFunctionDef Operator
+highlight link lcamlOperator Operator
+highlight link lcamlTodo Todo
+
+let b:current_syntax = "lml"
+]]
 
 function lcaml:init()
   vim.notify("debug: lcaml.init", vim.log.levels.ERROR)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { pattern = { "*.lml" }, callback = function(_) lcaml.init_syntax() end })
+    { pattern = { "*.lml" }, callback = function(_) vim.cmd(vimscript) end })
 end
 
 function lcaml:setup()
