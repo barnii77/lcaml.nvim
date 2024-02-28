@@ -41,7 +41,7 @@ if !exists("b:current_syntax")
 endif
 ]]
 
-function lcaml:setup()
+function lcaml.init()
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     { callback = function(_) vim.cmd(highlights) end })
 end
