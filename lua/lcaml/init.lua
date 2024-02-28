@@ -10,7 +10,7 @@ if !exists("b:current_syntax")
   syntax keyword lcamlKeyword let return if else
   syntax keyword lcamlStruct struct
   syntax keyword lcamlType int float bool string list
-  syntax keyword lcamlTodo TODO NOTE FIXME
+  syntax keyword lcamlTodo TODO
 
   syntax match lcamlLiteral /()\|\d\+.\d\+\|\d\+/
   syntax match lcamlBoolean /true\|false/
