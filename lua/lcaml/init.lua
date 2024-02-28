@@ -6,4 +6,8 @@ function lcaml.init()
     { pattern = { "*.lml" }, callback = callback })
 end
 
+function lcaml.setup()
+  lcaml.init()
+end
+
 return lcaml
