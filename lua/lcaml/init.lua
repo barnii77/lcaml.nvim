@@ -1,6 +1,6 @@
 local lcaml = {}
 
-local function init_syntax()
+function lcaml.init_syntax()
   vim.notify("debug: init_syntax", vim.log.levels.ERROR)
   if vim.bo.current_syntax ~= "" then
     return
@@ -44,7 +44,7 @@ end
 function lcaml:init()
   vim.notify("debug: lcaml.init", vim.log.levels.ERROR)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { pattern = { "*.lml" }, callback = init_syntax })
+    { pattern = { "*.lml" }, command = "lua require('lcaml'):init_syntax()" })
 end
 
 function lcaml:setup()
