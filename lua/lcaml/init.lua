@@ -1,8 +1,9 @@
 local lcaml = {}
 
 function lcaml:init()
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { pattern = { "*.lml" }, callback = function() require("lcaml.syntax") end })
+  local callback = function(_) require("lcaml.syntax") end
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufNewFile" },
+    { pattern = { "*.lml" }, callback = callback })
 end
 
 return lcaml
