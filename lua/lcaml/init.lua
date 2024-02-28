@@ -2,11 +2,6 @@ local lcaml = {}
 
 function lcaml.init_syntax()
   vim.notify("debug: init_syntax", vim.log.levels.ERROR)
-  local current_syntax = vim.bo["current_syntax"]
-  if current_syntax == nil then
-    vim.notify("current_syntax is nil", vim.log.levels.ERROR)
-    current_syntax = ""
-  end
 
   if vim.bo["filetype"] ~= "lml" then
     vim.notify("not an lml file", vim.log.levels.ERROR)
@@ -44,14 +39,12 @@ function lcaml.init_syntax()
   vim.cmd("highlight link lcamlFunctionDef Operator")
   vim.cmd("highlight link lcamlOperator Operator")
   vim.cmd("highlight link lcamlTodo Todo")
-
-  -- vim.bo.current_syntax = "lml"
 end
 
 function lcaml:init()
   vim.notify("debug: lcaml.init", vim.log.levels.ERROR)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { pattern = { "*.lml" }, command = "lua require('lcaml'):init_syntax()" })
+    { pattern = { "*.lml" }, callback = function(_) lcaml.init_syntax() end })
 end
 
 function lcaml:setup()
