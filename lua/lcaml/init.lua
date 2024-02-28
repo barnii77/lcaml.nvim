@@ -2,7 +2,8 @@ local lcaml = {}
 
 function lcaml.init_syntax()
   vim.notify("debug: init_syntax", vim.log.levels.ERROR)
-  if vim.bo.current_syntax ~= "" then
+
+  if vim.bo["filetype"] ~= "lml" or vim.bo["current_syntax"] ~= "" then
     return
   end
 
@@ -38,7 +39,7 @@ function lcaml.init_syntax()
   vim.cmd("highlight link lcamlOperator Operator")
   vim.cmd("highlight link lcamlTodo Todo")
 
-  vim.bo.current_syntax = "lml"
+  -- vim.bo.current_syntax = "lml"
 end
 
 function lcaml:init()
