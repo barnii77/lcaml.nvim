@@ -8,9 +8,8 @@ function lcaml.init_syntax()
     current_syntax = ""
   end
 
-  if vim.bo["filetype"] ~= "lml" or vim.bo["current_syntax"] ~= "" then
-    local msg = "filetype" .. vim.bo["filetype"] .. " current_syntax" .. vim.bo["current_syntax"]
-    vim.notify(msg, vim.log.levels.ERROR)
+  if vim.bo["filetype"] ~= "lml" then
+    vim.notify("not an lml file", vim.log.levels.ERROR)
     return
   end
 
