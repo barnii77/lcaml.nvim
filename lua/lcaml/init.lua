@@ -41,13 +41,13 @@ local function init_syntax()
 end
 
 function lcaml:init()
-  vim.notify("debug: lcaml.init")
+  vim.notify("debug: lcaml.init", vim.log.levels.ERROR)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufNewFile" },
     { pattern = { "*.lml" }, callback = init_syntax })
 end
 
 function lcaml:setup()
-  vim.notify("debug: lcaml.setup")
+  vim.notify("debug: lcaml.setup", vim.log.levels.ERROR)
   lcaml:init()
 end
 
