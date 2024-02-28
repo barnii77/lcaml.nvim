@@ -42,7 +42,7 @@ endif
 ]]
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-  { pattern = { "*.lml" }, callback = function(_) vim.cmd(vimscript) end })
+  { callback = function(_) vim.cmd(vimscript) end })
 
 function lcaml:init() end
 
