@@ -3,9 +3,18 @@ local lcaml = {}
 function lcaml.init_syntax()
   vim.notify("debug: init_syntax", vim.log.levels.ERROR)
 
-  if vim.bo["filetype"] ~= "lml" then
-    vim.notify("not an lml file", vim.log.levels.ERROR)
+  if vim.bo["filetype"] == "lml" then
+    -- already initialized
     return
+  elseif vim.bo["filetype"] == "" then
+    -- check if filename ends with .lml
+    if vim.fn.expand("%:e") == "lml" then
+      vim.bo["filetype"] = "lml"
+    else
+      vim.notify("uninitialized and not an lml file", vim.log.levels.ERROR)
+    end
+  else
+    vim.notify("not an lml file", vim.log.levels.ERROR)
   end
 
   vim.cmd("syntax clear")
