@@ -12,7 +12,7 @@ if !exists("b:current_syntax")
   syntax keyword lcamlType int float bool string list
   syntax keyword lcamlTodo TODO
 
-  syntax match lcamlLiteral /()\|\d\+.\d\+\|\d\+/
+  syntax match lcamlLiteral /()\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+.\d\+\)\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+\)/
   syntax match lcamlBoolean /true\|false/
 
   " syntax match lcamlIdentifier /\(\(true\|false\)\>\)\@!\([a-zA-Z_][a-zA-Z0-9_]*\)/
