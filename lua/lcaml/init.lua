@@ -1,19 +1,8 @@
 local lcaml = {}
 
-local function enable_syntax_highlighting()
-  require("lcaml.syntax")
-end
-
 function lcaml.init()
-  vim.api.nvim_create_autocmd(
-    {
-      "BufEnter", "BufWinEnter"
-    },
-    {
-      pattern = { "*.lml" },
-      callback = enable_syntax_highlighting,
-    }
-  )
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+    { pattern = { "*.lml" }, callback = function() require("lcaml.syntax") end })
 end
 
 return lcaml
