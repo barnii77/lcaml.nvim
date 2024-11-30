@@ -1,4 +1,12 @@
 local lcaml = {}
+local h = [[if !exists("b:current_syntax")
+  if expand("%:e") == "lml"
+    syntax clear
+    syntax region MyString start=/"/ end=/"/
+    highlight link MyString String
+    let b:current_syntax = "lml"
+  endif
+endif]]
 
 local highlights = [[
 " Vim syntax file for Your Programming Language
@@ -46,7 +54,7 @@ endif
 
 function lcaml.init()
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { callback = function(_) vim.cmd(highlights) end })
+    { callback = function(_) vim.cmd(h) end })
   vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" },
     { callback = function(_) vim.cmd([[filetype on]]) end })
 end
