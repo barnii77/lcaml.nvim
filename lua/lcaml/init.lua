@@ -22,8 +22,8 @@ if !exists("b:current_syntax")
     syntax match lcamlOperator /+\|-\|\*\|\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~/
 
     " Strings and Comments
-    syntax region lcamlString start=/"/ end=/"/ contains=@html,@Spell
-    syntax match lcamlComment /--.*\n/ contains=@Spell
+    syntax region lcamlString start=/"/ end=/"/
+    syntax match lcamlComment /--.*\n/
 
     " Linking
     highlight link lcamlKeyword Statement
