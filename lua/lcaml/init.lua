@@ -8,7 +8,7 @@ if !exists("b:current_syntax")
     syntax clear
 
     " Keywords
-    syntax keyword lcamlKeyword let return if else
+    syntax keyword lcamlKeyword let return if else while
     syntax keyword lcamlStruct struct
     syntax keyword lcamlType int float bool string list
     syntax keyword lcamlTodo TODO
