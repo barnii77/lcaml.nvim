@@ -5,6 +5,7 @@ local highlights = [[
 
 if !exists("b:current_syntax")
   if expand("%:e") == "lml"
+    filetype off
     syntax clear
 
     " Keywords
@@ -46,6 +47,8 @@ endif
 function lcaml.init()
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     { callback = function(_) vim.cmd(highlights) end })
+  vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" },
+    { callback = function(_) vim.cmd([[filetype on]]) end })
 end
 
 return lcaml
