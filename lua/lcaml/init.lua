@@ -44,6 +44,11 @@ endif
 ]]
 
 function lcaml.setup()
+  vim.filetype.add({
+    extension = {
+      lml = "lml"
+    }
+  })
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     { callback = function(_) vim.cmd(highlights) end })
 end
