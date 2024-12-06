@@ -16,7 +16,7 @@ if expand("%:e") == "lml"
   syntax match lcamlUnit /()/
 
   syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~\|^\|&\||/
-  syntax match lcamlFunctionDef /|.*|/
+  syntax start lcamlFunctionDef /|[a-zA-Z0-9_ ]*|/
 
   " Strings and Comments
   syntax region lcamlString start=/"/ end=/"/
@@ -46,8 +46,8 @@ function lcaml.setup()
             lml = "lml"
         }
     })
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-        { callback = function(_) vim.cmd(highlights) end })
+    vim.api.nvim_create_autocmd({ "BufEnter" },
+        { callback = function(...) vim.cmd(highlights) end })
 end
 
 return lcaml
