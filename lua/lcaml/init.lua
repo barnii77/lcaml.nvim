@@ -22,6 +22,7 @@ if expand("%:e") == "lml"
   syntax start lcamlFunctionDef /|[a-zA-Z0-9_ ]*|/
 
   " Strings and Comments
+  echomsg "region defined next"
   syntax region lcamlString start=/"/ end=/"/
   syntax match lcamlComment /--.*\n/
   echomsg "gonna link now"
