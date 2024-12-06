@@ -13,12 +13,12 @@ if expand("%:e") == "lml"
   syntax keyword lcamlTodo TODO
 
   echomsg "matches will be defined next"
-  syntax match lcamlNumber /-\?\d\+(\.\d\+)\?/
+  syntax match lcamlNumber /-\?\d\+\(\.\d\+\)\?/
   syntax match lcamlBoolean /true\|false/
   syntax match lcamlUnit /()/
 
   echomsg "operators defined next"
-  syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||/ "\|!\|~\|^\|&\||/
+  syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!/ "\|~\|^\|&\||/
   echomsg "function def defined next"
   syntax match lcamlFunctionDef /|[a-zA-Z0-9_ ]*|/
 
