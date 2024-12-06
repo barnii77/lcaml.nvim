@@ -22,7 +22,7 @@ if expand("%:e") == "lml"
   syntax region lcamlString start=/"/ end=/"/
   syntax match lcamlComment /--.*\n/
 
-  " syntax match lcamlFunctionCall /\<[a-zA-Z_][a-zA-Z0-9_]*\>\@=\s\+\<\([a-zA-Z_][a-zA-Z0-9_]*\|\d\+\|(.*)\)\>/
+  syntax match lcamlFunctionCall /\<[a-zA-Z_][a-zA-Z0-9_]*\>\@=\s\+\<[a-zA-Z_0-9]\|(\>/
 
   " Linking
   highlight link lcamlKeyword Statement
@@ -37,7 +37,7 @@ if expand("%:e") == "lml"
   highlight link lcamlComment Comment
   highlight link lcamlOperator Operator
   highlight link lcamlFunctionDef Function
-  " highlight link lcamlFunctionCall Function
+  highlight link lcamlFunctionCall Function
   highlight link lcamlTodo Todo
 
   " let b:current_syntax = "lml"
