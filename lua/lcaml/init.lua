@@ -12,6 +12,7 @@ if expand("%:e") == "lml"
   syntax keyword lcamlJit jit
   syntax keyword lcamlTodo TODO
 
+  echomsg "matches will be defined next"
   syntax match lcamlNumber /-\?d\+(\.d\+)\?/
   syntax match lcamlBoolean /true\|false/
   syntax match lcamlUnit /()/
