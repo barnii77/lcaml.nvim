@@ -4,6 +4,9 @@ local highlights = [[
 " Vim syntax file for the LCaml Programming Language
 
 if expand("%:e") == "lml"
+  syntax clear
+  highlight clear
+
   " Keywords
   syntax keyword lcamlKeyword let return if else while
   syntax keyword lcamlStruct struct
