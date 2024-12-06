@@ -4,8 +4,8 @@ local highlights = [[
 " Vim syntax file for the LCaml Programming Language
 
 if expand("%:e") == "lml"
+  set nospell
   syntax clear
-  highlight Identifier cterm=NONE gui=NONE
 
   " Keywords
   syntax keyword lcamlKeyword let return if else while
