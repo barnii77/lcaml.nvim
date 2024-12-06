@@ -5,6 +5,7 @@ local highlights = [[
 
 if expand("%:e") == "lml"
   syntax clear
+  highlight Identifier cterm=NONE gui=NONE
 
   " Keywords
   syntax keyword lcamlKeyword let return if else while
