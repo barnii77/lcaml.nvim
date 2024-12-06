@@ -25,7 +25,7 @@ if expand("%:e") == "lml"
   syntax region lcamlString start=/"/ end=/"/
   syntax match lcamlComment /--.*\n/
 
-  syntax match lcamlFunctionCall /\<[a-zA-Z_][a-zA-Z0-9_]*\>\ze\s*\<\(\(\s[a-zA-Z_0-9]\)\|(\)\>/
+  syntax match lcamlFunctionCall /\<[a-zA-Z_][a-zA-Z0-9_]*\>\ze\s*\(\(\s[a-zA-Z_0-9]\)\|(\)/
 
   " Linking
   highlight link lcamlKeyword Statement
