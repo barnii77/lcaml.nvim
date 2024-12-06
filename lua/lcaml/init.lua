@@ -11,14 +11,12 @@ if expand("%:e") == "lml"
   syntax keyword lcamlJit jit
   syntax keyword lcamlTodo TODO
 
-  syntax match lcamlLiteral /()\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+.\d\+\)\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+\)/
-  " syntax match lcamlNumber /\d\+\(\.\d\+\)?/
+  syntax match lcamlNumber /-\?d\+(\.d\+)\?/
   syntax match lcamlBoolean /true\|false/
+  syntax match lcamlUnit /()/
 
-  " syntax match lcamlIdentifier /\(\(true\|false\)\>\)\@!\([a-zA-Z_][a-zA-Z0-9_]*\)/
-
-  syntax match lcamlFunctionDef /|/
-  syntax match lcamlOperator /+\|-\|\*\|\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~/
+  syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~\|^\|&\||/
+  syntax match lcamlFunctionDef /|.*|/
 
   " Strings and Comments
   syntax region lcamlString start=/"/ end=/"/
@@ -29,14 +27,13 @@ if expand("%:e") == "lml"
   highlight link lcamlType Type
   highlight link lcamlJit Type
   highlight link lcamlStruct Structure
-  highlight link lcamlLiteral Constant
-  " highlight link lcamlNumber Constant
+  highlight link lcamlNumber Constant
+  highlight link lcamlUnit Constant
   highlight link lcamlBoolean Boolean
-  " highlight link lcamlIdentifier Function  " Identifier
   highlight link lcamlString String
   highlight link lcamlComment Comment
-  highlight link lcamlFunctionDef Operator
   highlight link lcamlOperator Operator
+  highlight link lcamlFunctionDef Operator
   highlight link lcamlTodo Todo
 
   let b:current_syntax = "lml"
