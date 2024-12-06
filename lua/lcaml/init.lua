@@ -19,7 +19,8 @@ if expand("%:e") == "lml"
 
   echomsg "operators defined next"
   syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|~\|^\|&\||/
-  syntax start lcamlFunctionDef /|[a-zA-Z0-9_ ]*|/
+  echomsg "function def defined next"
+  syntax match lcamlFunctionDef /|[a-zA-Z0-9_ ]*|/
 
   " Strings and Comments
   echomsg "region defined next"
