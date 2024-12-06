@@ -11,10 +11,11 @@ if !exists("b:current_syntax")
     syntax keyword lcamlKeyword let return if else while
     syntax keyword lcamlStruct struct
     syntax keyword lcamlType int float bool string list
+    syntax keyword lcamlJit jit
     syntax keyword lcamlTodo TODO
 
-    syntax match lcamlNumber /\d\+\(\.\d\+\)?/
     syntax match lcamlLiteral /()\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+.\d\+\)\|\(\([0-9a-zA-Z_]\)\>\)\@!\(\d\+\)/
+    syntax match lcamlNumber /\d\+\(\.\d\+\)?/
     syntax match lcamlBoolean /true\|false/
 
     " syntax match lcamlIdentifier /\(\(true\|false\)\>\)\@!\([a-zA-Z_][a-zA-Z0-9_]*\)/
@@ -29,9 +30,10 @@ if !exists("b:current_syntax")
     " Linking
     highlight link lcamlKeyword Statement
     highlight link lcamlType Type
+    highlight link lcamlJit Type
     highlight link lcamlStruct Structure
-    highlight link lcamlNumber Constant
     highlight link lcamlLiteral Constant
+    highlight link lcamlNumber Constant
     highlight link lcamlBoolean Boolean
     " highlight link lcamlIdentifier Function  " Identifier
     highlight link lcamlString String
@@ -46,13 +48,13 @@ endif
 ]]
 
 function lcaml.setup()
-  vim.filetype.add({
-    extension = {
-      lml = "lml"
-    }
-  })
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-    { callback = function(_) vim.cmd(highlights) end })
+    vim.filetype.add({
+        extension = {
+            lml = "lml"
+        }
+    })
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+        { callback = function(_) vim.cmd(highlights) end })
 end
 
 return lcaml
