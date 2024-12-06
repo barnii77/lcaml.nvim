@@ -36,7 +36,7 @@ if expand("%:e") == "lml"
   highlight link lcamlFunctionDef Operator
   highlight link lcamlTodo Todo
 
-  let b:current_syntax = "lml"
+  " let b:current_syntax = "lml"
 endif
 ]]
 
