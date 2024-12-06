@@ -5,8 +5,6 @@ local highlights = [[
 
 if !exists("b:current_syntax")
   if expand("%:e") == "lml"
-    syntax clear
-
     " Keywords
     syntax keyword lcamlKeyword let return if else while
     syntax keyword lcamlStruct struct
