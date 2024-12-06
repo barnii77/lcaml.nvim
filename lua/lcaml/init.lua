@@ -21,6 +21,7 @@ if expand("%:e") == "lml"
   " Strings and Comments
   syntax region lcamlString start=/"/ end=/"/
   syntax match lcamlComment /--.*\n/
+  echoerr "gonna link now"
 
   " Linking
   highlight link lcamlKeyword Statement
