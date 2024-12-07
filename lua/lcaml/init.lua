@@ -69,7 +69,7 @@ function lcaml.setup(opts)
           if not client then
             vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
           elseif opts.notifications then
-            vim.notify("LCaml lsp should be loaded now")
+            vim.notify("LCaml lsp should be loaded now", vim.log.levels.INFO)
           end
         end
       end
