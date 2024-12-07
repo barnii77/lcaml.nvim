@@ -47,14 +47,33 @@ if expand("%:e") == "lml"
 endif
 ]]
 
-function lcaml.setup()
+function lcaml.setup(opts)
+  local lsp_set_up = false
   vim.filetype.add({
     extension = {
       lml = "lml"
     }
   })
   vim.api.nvim_create_autocmd({ "BufEnter" },
-    { callback = function() vim.cmd(highlights) end })
+    {
+      callback = function()
+        vim.cmd(highlights)
+        if not lsp_set_up then
+          lsp_set_up = true
+          local client = vim.lsp.start_client {
+            name = "LCamlLS",
+            cmd = { "python", "-m", "lcaml_ls" }, -- TODO generalize this command
+            on_init = lvim.lsp.on_init_callback,
+            on_attach = lvim.lsp.on_attach_callback,
+          }
+          if not client then
+            vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
+          elseif opts.notifications then
+            vim.notify("LCaml lsp should be loaded now")
+          end
+        end
+      end
+    })
 end
 
 return lcaml
