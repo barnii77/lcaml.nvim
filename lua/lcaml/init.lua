@@ -66,7 +66,6 @@ function lcaml.setup(opts)
             on_init = lvim.lsp.on_init_callback,
             on_attach = lvim.lsp.on_attach_callback,
           }
-          vim.notify(vim.inspect(opts), vim.log.levels.WARN)
           if not client then
             vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
           elseif opts.notifications then
