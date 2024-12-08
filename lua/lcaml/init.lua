@@ -69,7 +69,7 @@ function lcaml.setup(opts)
     configs.lcaml_ls = {
       default_config = {
         cmd = command,
-        root_dir = lspconfig.util.root_pattern('.git', 'requirements.json'),
+        root_dir = ".",
         filetypes = { 'lml' },
         on_new_config = function(new_config, _)
           local python_path
