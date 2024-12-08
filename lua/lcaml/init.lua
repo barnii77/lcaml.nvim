@@ -92,12 +92,34 @@ function lcaml.setup(opts)
       },
     }
   end
-  lspconfig.lcaml_ls.setup {}
+  local setup_result = lspconfig.lcaml_ls.setup {}
+  vim.notify(setup_result, vim.log.levels.DEBUG)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
+        local bufnr = vim.api.nvim_get_current_buf()
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        local already_attached = false
+
+        -- Check if lcaml_ls is already attached to the buffer
+        for _, client in ipairs(clients) do
+          if client.name == "lcaml_ls" then
+            already_attached = true
+            break
+          end
+        end
+
+        -- Attach lcaml_ls if not already attached
+        if not already_attached then
+          for _, client in ipairs(vim.lsp.get_clients()) do
+            if client.name == "lcaml_ls" then
+              vim.lsp.buf_attach_client(bufnr, client.id)
+              break
+            end
+          end
+        end
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
