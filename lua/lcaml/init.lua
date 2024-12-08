@@ -56,9 +56,15 @@ function lcaml.setup(opts)
         vim.cmd(highlights)
         if not lsp_set_up then
           lsp_set_up = true
+          local command -- TODO generalize this command
+          if opts.enable_server_logs then
+            command = { "python", "-m", "lcaml_ls", "--enable-logs" }
+          else
+            command = { "python", "-m", "lcaml_ls", "--enable-logs" }
+          end
           local client = vim.lsp.start_client {
             name = "lcaml_ls",
-            cmd = { "python", "-m", "lcaml_ls" }, -- TODO generalize this command
+            cmd = command,
             on_init = opts.on_init_callback,
             on_attach = opts.on_attach_callback,
           }
