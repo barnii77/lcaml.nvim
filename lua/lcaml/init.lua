@@ -58,7 +58,12 @@ function lcaml.setup(opts)
     }
   })
   local command
-  if opts.enable_server_logs then
+  if opts.enable_server_logs and opts.log_path then
+    if type(opts.log_path) ~= "string" then
+      error("opts.log_path must be string")
+    end
+    command = { "python", "-m", "lcaml_ls", "--enable-logs", "--log-to", opts.log_path }
+  elseif opts.enable_server_logs then
     command = { "python", "-m", "lcaml_ls", "--enable-logs" }
   else
     command = { "python", "-m", "lcaml_ls" }
