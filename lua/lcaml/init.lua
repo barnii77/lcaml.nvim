@@ -92,8 +92,7 @@ function lcaml.setup(opts)
       },
     }
   end
-  local setup_result = lspconfig.lcaml_ls.setup {}
-  vim.notify(vim.inspect(setup_result), vim.log.levels.DEBUG)
+  lspconfig.lcaml_ls.setup {}
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
