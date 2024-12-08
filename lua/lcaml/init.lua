@@ -49,7 +49,7 @@ function lcaml.setup(opts)
       lml = "lml"
     }
   })
-  vim.api.nvim_create_autocmd({ "BufEnter" },
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
       callback = function()
@@ -70,7 +70,7 @@ function lcaml.setup(opts)
         end
       end
     })
-  vim.api.nvim_create_autocmd({ "BufLeave" }, {
+  vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
     pattern = "*.lml",
     callback = function()
       vim.cmd([[syntax clear]])
