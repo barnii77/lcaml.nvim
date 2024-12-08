@@ -99,43 +99,31 @@ function lcaml.setup(opts)
       callback = function()
         vim.cmd(highlights)
         local bufnr = vim.api.nvim_get_current_buf()
-        local client_id = vim.lsp.start_client({
-          name = "lcaml_ls",
-          cmd = { "python", "-m", "lcaml_ls" },
-          root_dir = require('lspconfig.util').root_pattern('*'),
-          filetypes = { "lml" },
-        })
-        if not client_id then
-          vim.notify("failed to start client with client id " .. tostring(client_id), vim.log.levels.ERROR)
-          return
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        local already_attached = false
+
+        -- Check if lcaml_ls is already attached to the buffer
+        for _, client in ipairs(clients) do
+          if client.name == "lcaml_ls" then
+            already_attached = true
+            break
+          end
         end
-        vim.lsp.buf_attach_client(bufnr, client_id)
-        -- local bufnr = vim.api.nvim_get_current_buf()
-        -- local clients = vim.lsp.get_clients({ bufnr = bufnr })
-        -- local already_attached = false
+        vim.notify("already_attached = " .. tostring(already_attached), vim.log.levels.DEBUG)
 
-        -- -- Check if lcaml_ls is already attached to the buffer
-        -- for _, client in ipairs(clients) do
-        --   if client.name == "lcaml_ls" then
-        --     already_attached = true
-        --     break
-        --   end
-        -- end
-        -- vim.notify("already_attached = " .. tostring(already_attached), vim.log.levels.DEBUG)
-
-        -- -- Attach lcaml_ls if not already attached
-        -- if not already_attached then
-        --   for _, client in ipairs(vim.lsp.get_clients()) do
-        --     if client.name == "lcaml_ls" then
-        --       vim.notify("attaching lcaml lsp client " .. tostring(client.id) .. " to " .. tostring(bufnr),
-        --         vim.log.levels.DEBUG)
-        --       vim.lsp.buf_attach_client(bufnr, client.id)
-        --       break
-        --     else
-        --       vim.notify("found client with name " .. client.name, vim.log.levels.DEBUG)
-        --     end
-        --   end
-        -- end
+        -- Attach lcaml_ls if not already attached
+        if not already_attached then
+          for _, client in ipairs(vim.lsp.get_clients()) do
+            if client.name == "lcaml_ls" then
+              vim.notify("attaching lcaml lsp client " .. tostring(client.id) .. " to " .. tostring(bufnr),
+                vim.log.levels.DEBUG)
+              vim.lsp.buf_attach_client(bufnr, client.id)
+              break
+            else
+              vim.notify("found client with name " .. client.name, vim.log.levels.DEBUG)
+            end
+          end
+        end
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
