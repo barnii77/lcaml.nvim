@@ -109,13 +109,13 @@ function lcaml.setup(opts)
             break
           end
         end
-        vim.notify("already_attached = " + string(already_attached), vim.log.levels.DEBUG)
+        vim.notify("already_attached = " .. already_attached, vim.log.levels.DEBUG)
 
         -- Attach lcaml_ls if not already attached
         if not already_attached then
           for _, client in ipairs(vim.lsp.get_clients()) do
             if client.name == "lcaml_ls" then
-              vim.notify("attaching lcaml lsp client", vim.log.levels.DEBUG)
+              vim.notify("attaching lcaml lsp client " .. client.id .. " to " .. bufnr, vim.log.levels.DEBUG)
               vim.lsp.buf_attach_client(bufnr, client.id)
               break
             end
