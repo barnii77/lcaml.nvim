@@ -68,7 +68,6 @@ function lcaml.setup(opts)
   else
     command = { "python", "-m", "lcaml_ls" }
   end
-  vim.notify(opts.log_path, vim.log.levels.DEBUG)
   local lspconfig = require 'lspconfig'
   local configs = require 'lspconfig.configs'
   if not configs.lcaml_ls then
