@@ -43,37 +43,38 @@ highlight link lcamlTodo Todo
 ]]
 
 function lcaml.setup(opts)
-  local lsp_set_up = false
   vim.filetype.add({
     extension = {
       lml = "lml"
     }
   })
+  local command -- TODO generalize this command
+  if opts.enable_server_logs then
+    command = { "python", "-m", "lcaml_ls", "--enable-logs" }
+  else
+    command = { "python", "-m", "lcaml_ls" }
+  end
+  local client = vim.lsp.start_client {
+    name = "lcaml_ls",
+    cmd = command,
+    on_init = opts.on_init_callback,
+    on_attach = opts.on_attach_callback,
+  }
+  if not client then
+    vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
+    return
+  elseif type(client) == "string" then
+    vim.notify("Failed to start LCaml Language Server: Failed with error message `" + client + "`", vim.log.levels.ERROR)
+    return
+  elseif opts.client_create_callback then
+    opts.client_create_callback(client)
+  end
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
-        if not lsp_set_up then
-          lsp_set_up = true
-          local command -- TODO generalize this command
-          if opts.enable_server_logs then
-            command = { "python", "-m", "lcaml_ls", "--enable-logs" }
-          else
-            command = { "python", "-m", "lcaml_ls", "--enable-logs" }
-          end
-          local client = vim.lsp.start_client {
-            name = "lcaml_ls",
-            cmd = command,
-            on_init = opts.on_init_callback,
-            on_attach = opts.on_attach_callback,
-          }
-          if not client then
-            vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
-          elseif opts.client_create_callback then
-            opts.client_create_callback(client)
-          end
-        end
+        vim.lsp.buf_attach_client(0, client)
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
