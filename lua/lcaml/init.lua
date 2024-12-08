@@ -42,13 +42,22 @@ highlight link lcamlFunctionCall Function
 highlight link lcamlTodo Todo
 ]]
 
+local function GetLsPythonPath()
+  -- Get the directory of this file (lua/lcaml/init.lua)
+  local script_path = debug.getinfo(1, "S").source:sub(2)
+  local script_dir = vim.fn.fnamemodify(script_path, ":h")
+  local repo_root = vim.fn.fnamemodify(script_dir, ":h:h")
+  local lsp_path = repo_root .. "/lcaml_lsp_repo"
+  return lsp_path
+end
+
 function lcaml.setup(opts)
   vim.filetype.add({
     extension = {
       lml = "lml"
     }
   })
-  local command -- TODO generalize this command
+  local command
   if opts.enable_server_logs then
     command = { "python", "-m", "lcaml_ls", "--enable-logs" }
   else
@@ -62,6 +71,13 @@ function lcaml.setup(opts)
         cmd = command,
         root_dir = lspconfig.util.root_pattern('.git', 'requirements.json'),
         filetypes = { 'lml' },
+        on_new_config = function(new_config, _)
+          new_config.cmd_env = vim.tbl_extend(
+            "force",
+            new_config.cmd_env or {},
+            { PYTHONPATH = GetLsPythonPath() }
+          )
+        end,
       },
     }
   end
