@@ -13,8 +13,8 @@ syntax keyword lcamlBuiltin print println input isinstance islike nl set list jo
 syntax keyword lcamlIntrinsic __compiled __this __vm __interpreter
 syntax keyword lcamlTodo TODO
 
-syntax match lcamlNumber /\d\+\(\.\d\+\)\?/
-syntax match lcamlBoolean /true\|false/
+syntax match lcamlNumber /\b\d\+\(\.\d\+\)\?\b/
+syntax match lcamlBoolean /\btrue\b\|\bfalse\b/
 syntax match lcamlUnit /()/
 
 syntax match lcamlOperator /+\|-\|\*\|\/\|\/\/\|%\|==\|!=\|<\|<=\|>\|>=\|&&\|||\|!\|\~\|\^\|&\||/
