@@ -72,6 +72,9 @@ function lcaml.setup(opts)
         root_dir = lspconfig.util.root_pattern('.git', 'requirements.json'),
         filetypes = { 'lml' },
         on_new_config = function(new_config, _)
+          if opts.no_use_ls_shipped_with_plugin then
+            return
+          end
           new_config.cmd_env = vim.tbl_extend(
             "force",
             new_config.cmd_env or {},
