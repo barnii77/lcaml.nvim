@@ -118,6 +118,8 @@ function lcaml.setup(opts)
               vim.notify("attaching lcaml lsp client " .. tostring(client.id) .. " to " .. tostring(bufnr), vim.log.levels.DEBUG)
               vim.lsp.buf_attach_client(bufnr, client.id)
               break
+            else
+              vim.notify("found client with name " .. client.name, vim.log.levels.DEBUG)
             end
           end
         end
