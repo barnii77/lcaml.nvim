@@ -47,7 +47,7 @@ local function GetLsPythonPath()
   local script_path = debug.getinfo(1, "S").source:sub(2)
   local script_dir = vim.fn.fnamemodify(script_path, ":h")
   local repo_root = vim.fn.fnamemodify(script_dir, ":h:h")
-  local lsp_path = repo_root .. "/lcaml_lsp_repo"
+  local lsp_path = repo_root .. "/lcaml_ls"
   return lsp_path
 end
 
@@ -68,6 +68,7 @@ function lcaml.setup(opts)
   else
     command = { "python", "-m", "lcaml_ls" }
   end
+  vim.notify(opts.log_path, vim.log.levels.DEBUG)
   local lspconfig = require 'lspconfig'
   local configs = require 'lspconfig.configs'
   if not configs.lcaml_ls then
