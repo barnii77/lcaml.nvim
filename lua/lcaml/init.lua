@@ -106,7 +106,7 @@ function lcaml.setup(opts)
           filetypes = { "lml" },
         })
         if not client_id then
-          vim.notify("failed to start client", vim.log.levels.ERROR)
+          vim.notify("failed to start client with client id " .. tostring(client_id), vim.log.levels.ERROR)
           return
         end
         vim.lsp.buf_attach_client(bufnr, client_id)
