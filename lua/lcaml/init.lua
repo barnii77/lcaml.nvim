@@ -78,6 +78,7 @@ function lcaml.setup(opts)
           else
             python_path = GetLsPythonPath()
           end
+          vim.notify(python_path, vim.log.levels.INFO)
           new_config.cmd_env = vim.tbl_extend(
             "force",
             new_config.cmd_env or {},
