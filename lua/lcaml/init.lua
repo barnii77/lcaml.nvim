@@ -70,6 +70,12 @@ function lcaml.setup(opts)
         end
       end
     })
+  vim.api.nvim_create_autocmd({ "BufLeave" }, {
+    pattern = "*.lml",
+    callback = function()
+      vim.cmd([[syntax clear]])
+    end
+  })
 end
 
 return lcaml
