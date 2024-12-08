@@ -54,27 +54,23 @@ function lcaml.setup(opts)
   else
     command = { "python", "-m", "lcaml_ls" }
   end
-  local client = vim.lsp.start_client {
-    name = "lcaml_ls",
-    cmd = command,
-    on_init = opts.on_init_callback,
-    on_attach = opts.on_attach_callback,
-  }
-  if not client then
-    vim.notify("Failed to start LCaml Language Server", vim.log.levels.ERROR)
-    return
-  elseif type(client) == "string" then
-    vim.notify("Failed to start LCaml Language Server: Failed with error message `" + client + "`", vim.log.levels.ERROR)
-    return
-  elseif opts.client_create_callback then
-    opts.client_create_callback(client)
+  local lspconfig = require 'lspconfig'
+  local configs = require 'lspconfig.configs'
+  if not configs.lcaml_ls then
+    configs.lcaml_ls = {
+      default_config = {
+        cmd = command,
+        root_dir = lspconfig.util.root_pattern('.git', 'requirements.json'),
+        filetypes = { 'lml' },
+      },
+    }
   end
+  lspconfig.lcaml_ls.setup {}
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
-        vim.lsp.buf_attach_client(0, client)
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
