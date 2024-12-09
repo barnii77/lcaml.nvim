@@ -100,7 +100,7 @@ function lcaml.setup(opts)
         vim.cmd(highlights)
         local bufnr = vim.api.nvim_get_current_buf()
         local active_clients = vim.lsp.get_clients({bufnr = bufnr})
-        local all_clients = require 'lspconfig'
+        local all_clients = require 'lspconfig.configs'
         local already_attached = false
 
         for _, client in pairs(active_clients) do
