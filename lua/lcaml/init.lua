@@ -68,61 +68,80 @@ function lcaml.setup(opts)
   else
     command = { "python", "-m", "lcaml_ls" }
   end
-  local lspconfig = require 'lspconfig'
-  local configs = require 'lspconfig.configs'
-  if not configs.lcaml_ls then
-    configs.lcaml_ls = {
-      default_config = {
-        cmd = command,
-        root_dir = lspconfig.util.root_pattern('*'),
-        filetypes = { 'lml' },
-        on_new_config = function(new_config, _)
-          local python_path
-          if opts.manual_python_path then
-            python_path = opts.manual_python_path
-          else
-            python_path = GetLsPythonPath()
-          end
-          new_config.cmd_env = vim.tbl_extend(
-            "force",
-            new_config.cmd_env or {},
-            { PYTHONPATH = python_path }
-          )
-        end,
-      },
-    }
+  local python_path
+  if opts.manual_python_path then
+    python_path = opts.manual_python_path
+  else
+    python_path = GetLsPythonPath()
   end
-  lspconfig.lcaml_ls.setup {}
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+  local cmd_env = { PYTHONPATH = python_path }
+  local client = vim.lsp.start_client {
+    cmd_env = cmd_env,
+    name = "lcaml_ls",
+    cmd = command,
+    on_init = opts.on_init_callback,
+    on_attach = opts.on_attach_callback,
+  }
+  if not client then
+    vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
+    return
+  end
+  -- local lspconfig = require 'lspconfig'
+  -- local configs = require 'lspconfig.configs'
+  -- if not configs.lcaml_ls then
+  --   configs.lcaml_ls = {
+  --     default_config = {
+  --       cmd = command,
+  --       root_dir = lspconfig.util.root_pattern('*'),
+  --       filetypes = { 'lml' },
+  --       on_new_config = function(new_config, _)
+  --         local python_path
+  --         if opts.manual_python_path then
+  --           python_path = opts.manual_python_path
+  --         else
+  --           python_path = GetLsPythonPath()
+  --         end
+  --         new_config.cmd_env = vim.tbl_extend(
+  --           "force",
+  --           new_config.cmd_env or {},
+  --           { PYTHONPATH = python_path }
+  --         )
+  --       end,
+  --     },
+  --   }
+  -- end
+  -- lspconfig.lcaml_ls.setup {}
+  vim.api.nvim_create_autocmd({ "FileType" },
     {
-      pattern = "*.lml",
+      pattern = "lml",
       callback = function()
         vim.cmd(highlights)
-        local bufnr = vim.api.nvim_get_current_buf()
-        local active_clients = vim.lsp.get_clients({bufnr = bufnr})
-        local all_clients = require 'lspconfig.configs'
-        local already_attached = false
+        vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), client)
+        -- local bufnr = vim.api.nvim_get_current_buf()
+        -- local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
+        -- local all_clients = require 'lspconfig.configs'
+        -- local already_attached = false
 
-        for _, client in pairs(active_clients) do
-          if client.name == "lcaml_ls" then
-            already_attached = true
-            break
-          end
-        end
-        vim.notify("already_attached = " .. tostring(already_attached), vim.log.levels.DEBUG)
+        -- for _, client in pairs(active_clients) do
+        --   if client.name == "lcaml_ls" then
+        --     already_attached = true
+        --     break
+        --   end
+        -- end
+        -- vim.notify("already_attached = " .. tostring(already_attached), vim.log.levels.DEBUG)
 
-        if not already_attached then
-          for name, client in pairs(all_clients) do
-            if name == "lcaml_ls" then
-              vim.notify("attaching lcaml lsp client " .. vim.inspect(client) .. " to " .. tostring(bufnr),
-                vim.log.levels.DEBUG)
-              vim.lsp.buf_attach_client(bufnr, client.id)
-              break
-            else
-              vim.notify("found client with name " .. name, vim.log.levels.DEBUG)
-            end
-          end
-        end
+        -- if not already_attached then
+        --   for _, client in pairs(all_clients) do
+        --     if client.name == "lcaml_ls" then
+        --       vim.notify("attaching lcaml lsp client " .. vim.inspect(client) .. " to " .. tostring(bufnr),
+        --         vim.log.levels.DEBUG)
+        --       vim.lsp.buf_attach_client(bufnr, client.id)
+        --       break
+        --     else
+        --       vim.notify("found client with name " .. client.name, vim.log.levels.DEBUG)
+        --     end
+        --   end
+        -- end
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
