@@ -99,11 +99,11 @@ function lcaml.setup(opts)
       callback = function()
         vim.cmd(highlights)
         local bufnr = vim.api.nvim_get_current_buf()
-        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        local clients = require 'lspconfig'
         local already_attached = false
 
         -- Check if lcaml_ls is already attached to the buffer
-        for _, client in ipairs(clients) do
+        for _, client in pairs(clients) do
           if client.name == "lcaml_ls" then
             already_attached = true
             break
