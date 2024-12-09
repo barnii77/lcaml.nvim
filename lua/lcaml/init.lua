@@ -111,6 +111,13 @@ function lcaml.setup(opts)
   --   }
   -- end
   -- lspconfig.lcaml_ls.setup {}
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+    {
+      pattern = "lml",
+      callback = function()
+        vim.cmd(highlights)
+      end
+    })
   vim.api.nvim_create_autocmd({ "FileType" },
     {
       pattern = "lml",
