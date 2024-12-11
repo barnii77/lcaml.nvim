@@ -71,7 +71,7 @@ function lcaml.setup(opts)
   end
   local cmd_env = { PYTHONPATH = python_path }
   local client = vim.lsp.start({
-    cmd_env = cmd_env,
+    -- cmd_env = cmd_env,
     name = "lcaml_ls",
     cmd = command,
     on_init = function(client, initialize_result)
