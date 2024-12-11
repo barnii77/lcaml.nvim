@@ -70,35 +70,35 @@ function lcaml.setup(opts)
     python_path = GetLsPythonPath()
   end
   local cmd_env = { PYTHONPATH = python_path }
-  local client = vim.lsp.start({
-    -- cmd_env = cmd_env,
-    name = "lcaml_ls",
-    cmd = command,
-    on_init = function(client, initialize_result)
-      vim.notify("on init called", vim.log.levels.INFO)
-      vim.filetype.add({
-        extension = {
-          lcaml = function(path, bufnr)
-            vim.notify("triggered filetype check thingy", vim.log.levels.INFO)
-            if path:sub(-4) == ".lml" then
-              -- attach ls
-              vim.notify("will try to attach now", vim.log.levels.INFO)
-              local success = vim.lsp.buf_attach_client(bufnr, client.id)
-              if not success then
-                vim.notify("failed to attach lsp client", vim.log.levels.ERROR)
-              end
-            end
-          end
-        }
-      })
-      opts.on_init_callback(client, initialize_result)
-    end,
-    on_attach = opts.on_attach_callback,
-  }, { reuse_client = function() return true end, bufnr = 0 })
-  if not client then
-    vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
-    return
-  end
+  -- local client = vim.lsp.start({
+  --   -- cmd_env = cmd_env,
+  --   name = "lcaml_ls",
+  --   cmd = command,
+  --   on_init = function(client, initialize_result)
+  --     vim.notify("on init called", vim.log.levels.INFO)
+  --     vim.filetype.add({
+  --       extension = {
+  --         lcaml = function(path, bufnr)
+  --           vim.notify("triggered filetype check thingy", vim.log.levels.INFO)
+  --           if path:sub(-4) == ".lml" then
+  --             -- attach ls
+  --             vim.notify("will try to attach now", vim.log.levels.INFO)
+  --             local success = vim.lsp.buf_attach_client(bufnr, client.id)
+  --             if not success then
+  --               vim.notify("failed to attach lsp client", vim.log.levels.ERROR)
+  --             end
+  --           end
+  --         end
+  --       }
+  --     })
+  --     opts.on_init_callback(client, initialize_result)
+  --   end,
+  --   on_attach = opts.on_attach_callback,
+  -- }, { reuse_client = function() return true end, bufnr = 0 })
+  -- if not client then
+  --   vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
+  --   return
+  -- end
   -- vim.lsp.config["lcaml_ls"] = {
   --   cmd_env = cmd_env,
   --   filetypes = { "lcaml" },
@@ -118,31 +118,31 @@ function lcaml.setup(opts)
   --   vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
   --   return
   -- end
-  -- local lspconfig = require 'lspconfig'
-  -- local configs = require 'lspconfig.configs'
-  -- if not configs.lcaml_ls then
-  --   configs.lcaml_ls = {
-  --     default_config = {
-  --       cmd = command,
-  --       root_dir = lspconfig.util.root_pattern('*'),
-  --       filetypes = { '*.lml' },
-  --       on_new_config = function(new_config, _)
-  --         local python_path
-  --         if opts.manual_python_path then
-  --           python_path = opts.manual_python_path
-  --         else
-  --           python_path = GetLsPythonPath()
-  --         end
-  --         new_config.cmd_env = vim.tbl_extend(
-  --           "force",
-  --           new_config.cmd_env or {},
-  --           { PYTHONPATH = python_path }
-  --         )
-  --       end,
-  --     },
-  --   }
-  -- end
-  -- lspconfig.lcaml_ls.setup {}
+  local lspconfig = require 'lspconfig'
+  local configs = require 'lspconfig.configs'
+  if not configs.lcaml_ls then
+    configs.lcaml_ls = {
+      default_config = {
+        cmd = command,
+        root_dir = lspconfig.util.root_pattern('*'),
+        filetypes = { '*.lml' },
+        on_new_config = function(new_config, _)
+          local python_path
+          if opts.manual_python_path then
+            python_path = opts.manual_python_path
+          else
+            python_path = GetLsPythonPath()
+          end
+          new_config.cmd_env = vim.tbl_extend(
+            "force",
+            new_config.cmd_env or {},
+            { PYTHONPATH = python_path }
+          )
+        end,
+      },
+    }
+  end
+  lspconfig.lcaml_ls.setup {}
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "*.lml",
