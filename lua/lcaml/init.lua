@@ -120,7 +120,7 @@ function lcaml.setup(opts)
     })
   vim.api.nvim_create_autocmd({ "FileType" },
     {
-      pattern = "*.lml",
+      pattern = "lcaml",
       callback = function()
         vim.notify("please just work", vim.log.levels.INFO)
         vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), client)
