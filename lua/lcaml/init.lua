@@ -75,6 +75,7 @@ function lcaml.setup(opts)
     name = "lcaml_ls",
     cmd = command,
     on_init = function(client, initialize_result)
+      vim.notify("on init called", vim.log.levels.INFO)
       vim.filetype.add({
         extension = {
           lcaml = function(path, bufnr)
