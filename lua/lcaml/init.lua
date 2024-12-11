@@ -117,7 +117,7 @@ function lcaml.setup(opts)
       callback = function()
         vim.cmd(highlights)
         vim.notify("please just work", vim.log.levels.INFO)
-        vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), client)
+        vim.lsp.buf_attach_client(0, client)
       end
     })
   vim.api.nvim_create_autocmd({ "FileType" },
