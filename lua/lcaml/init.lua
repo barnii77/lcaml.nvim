@@ -80,7 +80,10 @@ function lcaml.setup(opts)
           lcaml = function(path, bufnr)
             if path:sub(-4) == ".lml" then
               -- attach ls
-              vim.lsp.buf_attach_client(bufnr, client)
+              local success = vim.lsp.buf_attach_client(bufnr, client)
+              if ~success then
+                vim.notify("failed to attach lsp client", vim.log.levels.ERROR)
+              end
             end
           end
         }
