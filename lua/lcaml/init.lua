@@ -78,6 +78,7 @@ function lcaml.setup(opts)
       vim.filetype.add({
         extension = {
           lcaml = function(path, bufnr)
+            vim.notify("triggered filetype check thingy", vim.log.levels.INFO)
             if path:sub(-4) == ".lml" then
               -- attach ls
               vim.notify("will try to attach now", vim.log.levels.INFO)
