@@ -116,14 +116,14 @@ function lcaml.setup(opts)
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
+        vim.notify("please just work", vim.log.levels.INFO)
+        vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), client)
       end
     })
   vim.api.nvim_create_autocmd({ "FileType" },
     {
-      pattern = "lcaml",
+      pattern = "*.lml",
       callback = function()
-        vim.notify("please just work", vim.log.levels.INFO)
-        vim.lsp.buf_attach_client(vim.api.nvim_get_current_buf(), client)
         -- local bufnr = vim.api.nvim_get_current_buf()
         -- local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
         -- local all_clients = require 'lspconfig.configs'
