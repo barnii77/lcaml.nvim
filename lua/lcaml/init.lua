@@ -85,6 +85,8 @@ function lcaml.setup(opts)
   if not client then
     vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
     return
+  else
+    vim.notify("language server has client id " .. tostring(client), vim.log.levels.INFO)
   end
   vim.notify("on init called", vim.log.levels.INFO)
   vim.filetype.add {
