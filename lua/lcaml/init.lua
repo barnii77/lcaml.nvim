@@ -52,6 +52,11 @@ local function GetLsPythonPath()
 end
 
 function lcaml.setup(opts)
+  vim.filetype.add({
+    extension = {
+      lcaml = { "lml" }
+    }
+  })
   local command
   if opts.enable_server_logs and opts.log_path then
     if type(opts.log_path) ~= "string" then
@@ -125,14 +130,8 @@ function lcaml.setup(opts)
       default_config = {
         cmd = command,
         root_dir = lspconfig.util.root_pattern('*'),
-        filetypes = { '*.lml' },
+        filetypes = { 'lcaml' },
         on_new_config = function(new_config, _)
-          local python_path
-          if opts.manual_python_path then
-            python_path = opts.manual_python_path
-          else
-            python_path = GetLsPythonPath()
-          end
           new_config.cmd_env = vim.tbl_extend(
             "force",
             new_config.cmd_env or {},
