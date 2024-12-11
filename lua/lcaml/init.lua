@@ -70,7 +70,7 @@ function lcaml.setup(opts)
     python_path = GetLsPythonPath()
   end
   local cmd_env = { PYTHONPATH = python_path }
-  local client = vim.lsp.start_client {
+  local client = vim.lsp.start({
     cmd_env = cmd_env,
     name = "lcaml_ls",
     cmd = command,
@@ -94,7 +94,7 @@ function lcaml.setup(opts)
       opts.on_init_callback(client, initialize_result)
     end,
     on_attach = opts.on_attach_callback,
-  }
+  }, { reuse_client = function() return true end, bufnr = 0 })
   if not client then
     vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
     return
