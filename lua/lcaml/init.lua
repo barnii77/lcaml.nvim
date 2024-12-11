@@ -52,11 +52,11 @@ local function GetLsPythonPath()
 end
 
 function lcaml.setup(opts)
-  vim.filetype.add({
-    extension = {
-      lcaml = { "lml" }
-    }
-  })
+  -- vim.filetype.add({
+  --   extension = {
+  --     lcaml = { "lml" }
+  --   }
+  -- })
   local command
   if opts.enable_server_logs and opts.log_path then
     if type(opts.log_path) ~= "string" then
@@ -75,35 +75,33 @@ function lcaml.setup(opts)
     python_path = GetLsPythonPath()
   end
   local cmd_env = { PYTHONPATH = python_path }
-  -- local client = vim.lsp.start({
-  --   -- cmd_env = cmd_env,
-  --   name = "lcaml_ls",
-  --   cmd = command,
-  --   on_init = function(client, initialize_result)
-  --     vim.notify("on init called", vim.log.levels.INFO)
-  --     vim.filetype.add({
-  --       extension = {
-  --         lcaml = function(path, bufnr)
-  --           vim.notify("triggered filetype check thingy", vim.log.levels.INFO)
-  --           if path:sub(-4) == ".lml" then
-  --             -- attach ls
-  --             vim.notify("will try to attach now", vim.log.levels.INFO)
-  --             local success = vim.lsp.buf_attach_client(bufnr, client.id)
-  --             if not success then
-  --               vim.notify("failed to attach lsp client", vim.log.levels.ERROR)
-  --             end
-  --           end
-  --         end
-  --       }
-  --     })
-  --     opts.on_init_callback(client, initialize_result)
-  --   end,
-  --   on_attach = opts.on_attach_callback,
-  -- }, { reuse_client = function() return true end, bufnr = 0 })
-  -- if not client then
-  --   vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
-  --   return
-  -- end
+  local client = vim.lsp.start({
+    -- cmd_env = cmd_env,
+    name = "lcaml_ls",
+    cmd = command,
+    -- on_init = opts.on_init_callback,
+    -- on_attach = opts.on_attach_callback,
+  }, { reuse_client = function() return true end, bufnr = 0 })
+  if not client then
+    vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
+    return
+  end
+  vim.notify("on init called", vim.log.levels.INFO)
+  vim.filetype.add {
+    extension = {
+      lcaml = function(path, bufnr)
+        vim.notify("triggered filetype check thingy", vim.log.levels.INFO)
+        if path:sub(-4) == ".lml" then
+          -- attach ls
+          vim.notify("will try to attach now", vim.log.levels.INFO)
+          local success = vim.lsp.buf_attach_client(bufnr, client)
+          if not success then
+            vim.notify("failed to attach lsp client", vim.log.levels.ERROR)
+          end
+        end
+      end
+    }
+  }
   -- vim.lsp.config["lcaml_ls"] = {
   --   cmd_env = cmd_env,
   --   filetypes = { "lcaml" },
