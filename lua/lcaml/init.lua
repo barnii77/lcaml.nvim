@@ -96,7 +96,7 @@ function lcaml.setup(opts)
     on_attach = opts.on_attach_callback,
   }, { reuse_client = function() return true end, bufnr = 0 })
   if not client then
-    vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
+    vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
     return
   end
   -- vim.lsp.config["lcaml_ls"] = {
