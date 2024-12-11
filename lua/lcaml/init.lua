@@ -52,11 +52,6 @@ local function GetLsPythonPath()
 end
 
 function lcaml.setup(opts)
-  vim.filetype.add({
-    extension = {
-      lcaml = "lml"
-    }
-  })
   local command
   if opts.enable_server_logs and opts.log_path then
     if type(opts.log_path) ~= "string" then
@@ -86,6 +81,35 @@ function lcaml.setup(opts)
     vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
     return
   end
+  vim.filetype.add({
+    extension = {
+      lcaml = function(path, bufnr)
+        if path:sub(-4) == ".lml" then
+          -- attach ls
+          vim.lsp.buf_attach_client(bufnr, client)
+        end
+      end
+    }
+  })
+  -- vim.lsp.config["lcaml_ls"] = {
+  --   cmd_env = cmd_env,
+  --   filetypes = { "lcaml" },
+  --   cmd = command,
+  --   on_init = opts.on_init_callback,
+  --   on_attach = opts.on_attach_callback,
+  -- }
+  -- vim.lsp.enable("lcaml")
+  -- local client = vim.lsp.start_client {
+  --   cmd_env = cmd_env,
+  --   name = "lcaml_ls",
+  --   cmd = command,
+  --   on_init = opts.on_init_callback,
+  --   on_attach = opts.on_attach_callback,
+  -- }
+  -- if not client then
+  --   vim.notify("Failed to start lcaml lsp", vim.log.levels.ERROR)
+  --   return
+  -- end
   -- local lspconfig = require 'lspconfig'
   -- local configs = require 'lspconfig.configs'
   -- if not configs.lcaml_ls then
@@ -116,14 +140,14 @@ function lcaml.setup(opts)
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
-        vim.notify("please just work", vim.log.levels.INFO)
-        vim.lsp.buf_attach_client(0, client)
+        -- vim.notify("please just work", vim.log.levels.INFO)
+        -- vim.lsp.buf_attach_client(0, client)
       end
     })
-  vim.api.nvim_create_autocmd({ "FileType" },
-    {
-      pattern = "*.lml",
-      callback = function()
+  -- vim.api.nvim_create_autocmd({ "FileType" },
+  --   {
+  --     pattern = "*.lml",
+  --     callback = function()
         -- local bufnr = vim.api.nvim_get_current_buf()
         -- local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
         -- local all_clients = require 'lspconfig.configs'
@@ -149,8 +173,8 @@ function lcaml.setup(opts)
         --     end
         --   end
         -- end
-      end
-    })
+    --   end
+    -- })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
     pattern = "*.lml",
     callback = function()
