@@ -105,6 +105,7 @@ function lcaml.setup(opts)
     {
       pattern = "markdown",
       callback = function()
+        vim.notify("opened markdown file", vim.log.levels.INFO)
         vim.lsp.buf_attach_client(0, client)
       end
     })
