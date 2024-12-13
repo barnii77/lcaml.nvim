@@ -87,13 +87,13 @@ function lcaml.setup(opts)
   end
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
-      pattern = "markdown",
+      pattern = "lcaml",
       callback = function()
         vim.cmd(highlights)
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
-    pattern = "markdown",
+    pattern = "lcaml",
     callback = function()
       vim.cmd([[syntax clear]])
     end
@@ -101,7 +101,7 @@ function lcaml.setup(opts)
   vim.lsp.log.set_level('debug')
   vim.api.nvim_create_autocmd({ "FileType" },
     {
-      pattern = "markdown",
+      pattern = "lcaml",
       callback = function()
         vim.lsp.buf_attach_client(0, client)
       end
