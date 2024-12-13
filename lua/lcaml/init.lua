@@ -75,13 +75,13 @@ function lcaml.setup(opts)
     python_path = GetLsPythonPath()
   end
   local cmd_env = { PYTHONPATH = python_path }
-  local client = vim.lsp.start_client({
+  local client = vim.lsp.start_client {
     name = "lcaml_ls",
     cmd_env = cmd_env,
     cmd = command,
     on_init = opts.on_init_callback,
     on_attach = opts.on_attach_callback,
-  })
+  }
   if not client then
     return
   end
@@ -90,6 +90,9 @@ function lcaml.setup(opts)
       pattern = "*.lml",
       callback = function()
         vim.cmd(highlights)
+        if not vim.lsp.get_clients({ bufnr = 0 })[client] then
+          vim.lsp.buf_attach_client(0, client)
+        end
       end
     })
   vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
@@ -98,14 +101,6 @@ function lcaml.setup(opts)
       vim.cmd([[syntax clear]])
     end
   })
-  vim.api.nvim_create_autocmd({ "FileType" },
-    {
-      pattern = "*.lml",
-      callback = function()
-        vim.notify("test123", vim.log.levels.INFO)
-        vim.lsp.buf_attach_client(0, client)
-      end
-    })
 end
 
 return lcaml
