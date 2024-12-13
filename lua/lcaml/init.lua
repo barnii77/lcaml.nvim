@@ -75,19 +75,6 @@ function lcaml.setup(opts)
     python_path = GetLsPythonPath()
   end
   local cmd_env = { PYTHONPATH = python_path }
-  local client = vim.lsp.start_client({
-    name = "lcaml_ls",
-    -- cmd_env = cmd_env,
-    cmd = command,
-    -- on_init = opts.on_init_callback,
-    -- on_attach = opts.on_attach_callback,
-  })
-  if not client then
-    vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
-    return
-  else
-    vim.notify("language server has client id " .. tostring(client), vim.log.levels.INFO)
-  end
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
     {
       pattern = "markdown",
@@ -106,6 +93,19 @@ function lcaml.setup(opts)
       pattern = "markdown",
       callback = function()
         vim.notify("opened markdown file", vim.log.levels.INFO)
+        local client = vim.lsp.start_client({
+          name = "lcaml_ls",
+          cmd_env = cmd_env,
+          cmd = command,
+          -- on_init = opts.on_init_callback,
+          -- on_attach = opts.on_attach_callback,
+        })
+        if not client then
+          vim.notify("Failed to start lcaml lsp with code " .. tostring(client), vim.log.levels.ERROR)
+          return
+        else
+          vim.notify("language server has client id " .. tostring(client), vim.log.levels.INFO)
+        end
         vim.lsp.enable("lcaml_ls")
         vim.lsp.buf_attach_client(0, client)
       end
