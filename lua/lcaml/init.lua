@@ -102,6 +102,7 @@ function lcaml.setup(opts)
     {
       pattern = "*.lml",
       callback = function()
+        vim.notify("test123", vim.log.levels.INFO)
         vim.lsp.buf_attach_client(0, client)
       end
     })
