@@ -107,7 +107,7 @@ function lcaml.setup(opts)
         else
           vim.notify("language server has client id " .. tostring(client), vim.log.levels.INFO)
         end
-        vim.lsp.enable("lcaml_ls")
+        -- vim.lsp.enable("lcaml_ls")
         vim.lsp.buf_attach_client(0, client)
       end
     })
