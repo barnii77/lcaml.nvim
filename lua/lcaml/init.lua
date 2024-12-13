@@ -88,6 +88,7 @@ function lcaml.setup(opts)
       vim.cmd([[syntax clear]])
     end
   })
+  vim.lsp.log.set_level('debug')
   vim.api.nvim_create_autocmd({ "FileType" },
     {
       pattern = "markdown",
